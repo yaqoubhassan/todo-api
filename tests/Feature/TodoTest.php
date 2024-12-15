@@ -32,4 +32,23 @@ class TodoTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonFragment(['title' => 'First todo']);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_create_a_todo()
+    {
+        $data = [
+            'title' => 'Test todo',
+            'details' => 'Some dummy text',
+            'status' => 'not started'
+        ];
+
+        $response = $this->postJson(route('todos.store', $data));
+
+        $response->assertStatus(201)
+            ->assertJsonFragment(['title' => 'Test todo']);
+
+        $this->assertDatabaseHas('todos', $data);
+    }
 }
