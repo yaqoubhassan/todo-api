@@ -44,11 +44,30 @@ class TodoTest extends TestCase
             'status' => 'not started'
         ];
 
-        $response = $this->postJson(route('todos.store', $data));
+        $response = $this->postJson(route('todos.store'), $data);
 
         $response->assertStatus(201)
             ->assertJsonFragment(['title' => 'Test todo']);
 
         $this->assertDatabaseHas('todos', $data);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_update_a_todo()
+    {
+        $todo = Todo::factory()->create([
+            'status' => 'not started'
+        ]);
+
+        $data = [
+            'status' => 'completed'
+        ];
+
+        $response = $this->putJson(route('todos.update', $todo), $data);
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['status' => 'completed']);
     }
 }
