@@ -55,4 +55,11 @@ class TodoController extends Controller
 
         return response()->json($todo);
     }
+
+    public function destroy(Todo $todo)
+    {
+        $todo->delete();
+
+        return response()->json(null, 204);
+    }
 }
