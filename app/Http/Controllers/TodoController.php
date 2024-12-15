@@ -23,6 +23,10 @@ class TodoController extends Controller
             });
         }
 
+        if ($request->filled('sort')) {
+            $query->orderBy($request->sort, $request->get('order', 'asc'));
+        }
+
         return response()->json($query->paginate(10));
     }
 
