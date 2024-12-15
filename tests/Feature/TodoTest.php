@@ -70,4 +70,16 @@ class TodoTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => 'completed']);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_delete_a_todo()
+    {
+        $todo = Todo::factory()->create();
+
+        $response = $this->deleteJson(route('todos.destroy', $todo));
+
+        $response->assertStatus(204);
+    }
 }
