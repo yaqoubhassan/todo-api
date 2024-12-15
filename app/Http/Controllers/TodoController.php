@@ -35,11 +35,24 @@ class TodoController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'details' => 'nullable|string',
-            'status' => 'in:complete,in progress,not started'
+            'status' => 'in:completed,in progress,not started'
         ]);
 
         $todo = Todo::create($validated);
 
         return response()->json($todo, 201);
+    }
+
+    public function update(Request $request, Todo $todo)
+    {
+        $validated = $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'details' => 'nullable|string',
+            'status' => 'in:completed,in progress,not started'
+        ]);
+
+        $todo->update($validated);
+
+        return response()->json($todo);
     }
 }
