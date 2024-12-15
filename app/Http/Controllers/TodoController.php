@@ -12,6 +12,10 @@ class TodoController extends Controller
     {
         $query = Todo::query();
 
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
         return response()->json($query->paginate(10));
     }
 
