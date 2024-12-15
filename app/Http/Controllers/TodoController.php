@@ -8,6 +8,13 @@ use App\Http\Controllers\Controller;
 
 class TodoController extends Controller
 {
+    public function index(Request $request)
+    {
+        $query = Todo::query();
+
+        return response()->json($query->paginate(10));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
