@@ -16,6 +16,13 @@ class TodoController extends Controller
             $query->where('status', $request->status);
         }
 
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('details', 'like', '%' . $request->search . '%');
+            });
+        }
+
         return response()->json($query->paginate(10));
     }
 
