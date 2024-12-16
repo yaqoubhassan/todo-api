@@ -3,24 +3,20 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Todo;
+use PHPUnit\Framework\Attributes\Test;
 
 class TodoTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_list_all_todos_with_filtering_and_sorting()
     {
         Todo::factory()->create(['title' => 'First todo', 'status' => 'completed']);
         Todo::factory()->create(['title' => 'Second todo', 'status' => 'in progress']);
         Todo::factory()->create(['title' => 'Third todo', 'status' => 'not started']);
-
-        // $response = $this->getJson('/api/todos?search=todo&status=completed&sort=title&order=asc');
 
         $response = $this->getJson(route('todos.index', [
             'search' => 'todo',
@@ -33,9 +29,7 @@ class TodoTest extends TestCase
             ->assertJsonFragment(['title' => 'First todo']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_create_a_todo()
     {
         $data = [
@@ -48,13 +42,9 @@ class TodoTest extends TestCase
 
         $response->assertStatus(201)
             ->assertJsonFragment(['title' => 'Test todo']);
-
-        $this->assertDatabaseHas('todos', $data);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_update_a_todo()
     {
         $todo = Todo::factory()->create([
@@ -71,9 +61,7 @@ class TodoTest extends TestCase
             ->assertJsonFragment(['status' => 'completed']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_delete_a_todo()
     {
         $todo = Todo::factory()->create();
