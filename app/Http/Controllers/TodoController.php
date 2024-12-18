@@ -63,14 +63,14 @@ class TodoController extends Controller
             $query->orderBy($request->sort, $request->get('order', 'asc'));
         }
 
-        return response()->json($query->paginate(10));
+        return response()->json($query->latest()->paginate(10));
     }
 
     /**
      * @OA\Post(
      *     path="/api/todos",
      *     tags={"Todo"},
-     *     summary="Create a new product",
+     *     summary="Create a new todo",
      *     @OA\RequestBody(
      *         @OA\JsonContent(),
      *         @OA\MediaType(
@@ -103,6 +103,27 @@ class TodoController extends Controller
         $todo = Todo::create($validated);
 
         return response()->json($todo, 201);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/todos/{todo}",
+     *     tags={"Todo"},
+     *     summary="Fetch a todo",
+     *     @OA\Parameter(
+     *         name="todo",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="OK", @OA\JsonContent(),)
+     * )
+     */
+    public function show(Todo $todo = null)
+    {
+        return response()->json($todo);
     }
 
     /**
