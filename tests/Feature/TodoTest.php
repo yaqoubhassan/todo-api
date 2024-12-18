@@ -45,6 +45,22 @@ class TodoTest extends TestCase
     }
 
     #[Test]
+    public function it_can_show_a_single_todo_item()
+    {
+        $todo = Todo::factory()->create();
+
+        $response = $this->getJson(route('todos.show', $todo->id));
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'id' => $todo->id,
+                'title' => $todo->title,
+                'details' => $todo->details,
+                'status' => $todo->status
+            ]);
+    }
+
+    #[Test]
     public function it_can_update_a_todo()
     {
         $todo = Todo::factory()->create([
