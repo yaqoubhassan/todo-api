@@ -79,7 +79,7 @@
                 "tags": [
                     "Todo"
                 ],
-                "summary": "Create a new product",
+                "summary": "Create a new todo",
                 "operationId": "6f5da079c2dace66df52625276205a32",
                 "requestBody": {
                     "content": {
@@ -152,6 +152,33 @@
             }
         },
         "/api/todos/{todo}": {
+            "get": {
+                "tags": [
+                    "Todo"
+                ],
+                "summary": "Fetch a todo",
+                "operationId": "de852126e2655370ac90ca91baae44ea",
+                "parameters": [
+                    {
+                        "name": "todo",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
             "put": {
                 "tags": [
                     "Todo"
